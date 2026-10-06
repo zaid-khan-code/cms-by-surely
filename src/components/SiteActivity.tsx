@@ -1,0 +1,21 @@
+import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useLedger } from '../context';
+import { balance } from '../data/store';
+import { summarizeMaterials } from '../data/materials';
+import { money } from '../lib';
+import { Panel, Empty, SearchBox, Badge, VendorIcon } from './ui';
+import ReceiptTable from './ReceiptTable';
+const sections=[['materials','Materials'],['receipts','Receipts'],['suppliers','Supplying vendors']] as const;
+export default function SiteActivity({siteId}:{siteId:string}){
+ const {state}=useLedger();const [params,setParams]=useSearchParams();const [query,setQuery]=useState('');
+ const selected=params.get('section');const section=sections.some(([key])=>key===selected)?selected:'materials';
+ const receipts=state.receipts.filter(r=>r.site===siteId),materials=summarizeMaterials(receipts);
+ const vendors=state.vendors.filter(v=>receipts.some(r=>r.vendor===v.id));
+ const filtered=materials.filter(m=>m.description.toLowerCase().includes(query.toLowerCase()));
+ return <section className="site-activity"><nav className="site-section-nav" aria-label="Site sections">{sections.map(([key,label])=><button key={key} className={`button ${key===section?'primary':''}`} aria-current={key===section?'page':undefined} onClick={()=>{const next=new URLSearchParams(params);next.set('section',key);setParams(next);}}>{label}<span>{key==='materials'?materials.length:key==='receipts'?receipts.length:vendors.length}</span></button>)}</nav>
+ {section==='materials'&&<Panel title="Material quantities" subtitle="Total quantities recorded for this site across all receipts."><div className="padded"><SearchBox label="Search site materials" placeholder="Find a material…" value={query} onChange={setQuery}/><p className="form-hint">Matching descriptions and units are combined. These are receipted deliveries; actual installation, wastage and stock consumption are not separately recorded.</p></div>{filtered.length?<table className="responsive-table"><thead><tr><th>Material</th><th>Total quantity</th><th>Total billed</th><th>Receipt breakdown</th></tr></thead><tbody>{filtered.map(m=><tr key={m.key}><td data-label="Material"><strong>{m.description}</strong><small>{m.vendors.length} supplying vendors</small></td><td data-label="Total quantity">{m.quantity.toLocaleString('en-PK',{maximumFractionDigits:6})} {m.unit}</td><td data-label="Total billed">{money(m.amount)}</td><td data-label="Receipt breakdown"><details><summary>{m.receipts.length} receipts</summary><div className="material-evidence">{m.receipts.map(id=>{const r=receipts.find(r=>r.id===id)!;const group=summarizeMaterials([r]).find(row=>row.key===m.key)!;return <div key={id}><Link to={`/receipts/${id}`}>{r.code}</Link><span>{group.quantity.toLocaleString('en-PK',{maximumFractionDigits:6})} {m.unit} · {state.vendors.find(v=>v.id===r.vendor)?.name}</span></div>;})}</div></details></td></tr>)}</tbody></table>:<Empty title="No matching materials">Record a receipt for this site or try another search.</Empty>}</Panel>}
+ {section==='receipts'&&<Panel title="Site receipts" subtitle="Every receipt allocated to this project, with its payment status."><ReceiptTable rows={receipts}/></Panel>}
+ {section==='suppliers'&&<Panel title="Supplying vendors" subtitle="All vendors that have delivered materials to this site.">{vendors.length?<table className="responsive-table"><thead><tr><th>Vendor</th><th>Materials supplied</th><th>Receipts</th><th>Billed</th><th>Outstanding</th></tr></thead><tbody>{vendors.map(v=>{const rows=receipts.filter(r=>r.vendor===v.id),b=balance(rows);return <tr key={v.id}><td data-label="Vendor"><Link className="vendor-name" to={`/vendors/${v.id}`}><VendorIcon category={v.category}/><strong>{v.name}</strong></Link><Badge>{v.active?'Active':'Disabled'}</Badge></td><td data-label="Materials supplied">{summarizeMaterials(rows).map(m=><div key={m.key}>{m.description} · {m.quantity.toLocaleString('en-PK',{maximumFractionDigits:6})} {m.unit}</div>)}</td><td data-label="Receipts">{rows.length}</td><td data-label="Billed">{money(b.billed)}</td><td data-label="Outstanding">{money(b.outstanding)}</td></tr>;})}</tbody></table>:<Empty title="No suppliers yet">Record a receipt to connect a supplying vendor.</Empty>}</Panel>}
+ </section>;
+}

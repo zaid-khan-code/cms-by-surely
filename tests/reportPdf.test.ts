@@ -1,0 +1,9 @@
+import {afterEach,expect,it,vi} from 'vitest';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+import {createReportPDF} from '../src/reportPdf';
+import type {ReportData} from '../src/data/reportDocument';
+afterEach(()=>vi.unstubAllGlobals());
+const report:ReportData={title:'Monthly vendor ledger',period:'September 2026',scope:'All sites / All vendors',headers:['Vendor','Receipts','Billed (Rs)','Paid (Rs)','Remaining (Rs)','Status'],rows:[['Mughal Steel Traders','2','Rs 1,000,000.00','Rs 750,000.00','Rs 250,000.00','Partial']],totals:{billed:1000000,paid:750000,outstanding:250000},note:'Balances reflect the selected billing month. Includes subsequent settlements.'};
+function assets(){vi.stubGlobal('fetch',async (url:string)=>{const data=readFileSync(new URL(`../public${url}`,import.meta.url));return {ok:true,arrayBuffer:async()=>data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength)};});}
+it('creates a branded PDF and paginates long vendor lists',async()=>{assets();const pdf=await createReportPDF({...report,rows:Array.from({length:65},(_,i)=>[`${i+1}. ${report.rows[0][0]}`,...report.rows[0].slice(1)])});expect(pdf.getNumberOfPages()).toBeGreaterThan(1);expect(pdf.output()).toContain('CMS by Surely');mkdirSync('tests/output',{recursive:true});writeFileSync('tests/output/ledger-review.pdf',Buffer.from(pdf.output('arraybuffer')));});
+it('requires shaped Urdu text and embeds rendered names',async()=>{assets();const urdu={...report,scope:'لاہور',rows:[['احمد اسٹیل',...report.rows[0].slice(1)]]};await expect(createReportPDF(urdu)).rejects.toThrow(/Urdu text needs browser/);const image=readFileSync(new URL('../public/surely-white.jpg',import.meta.url)).toString('base64');const pdf=await createReportPDF(urdu,()=>({image:`data:image/png;base64,${image}`,heightMm:10}));expect(pdf.output('arraybuffer').byteLength).toBeGreaterThan(1000);writeFileSync('tests/output/urdu-review.pdf',Buffer.from(pdf.output('arraybuffer')));});

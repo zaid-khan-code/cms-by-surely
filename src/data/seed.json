@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "vendors": [
+    {
+      "id": "v1",
+      "code": "VND-0001",
+      "name": "Mughal Steel Traders",
+      "category": "Steel",
+      "contact": "Ahmed Mughal",
+      "phone": "0300 1234567",
+      "active": true,
+      "sites": [
+        "s1",
+        "s2",
+        "s4"
+      ]
+    },
+    {
+      "id": "v2",
+      "code": "VND-0002",
+      "name": "Master Tiles & Ceramics",
+      "category": "Tiles",
+      "contact": "Usman Ali",
+      "phone": "0321 7654321",
+      "active": true,
+      "sites": [
+        "s1",
+        "s3"
+      ]
+    },
+    {
+      "id": "v3",
+      "code": "VND-0003",
+      "name": "Al-Noor Hardware",
+      "category": "Hardware",
+      "contact": "Bilal Hassan",
+      "phone": "0333 4567890",
+      "active": true,
+      "sites": [
+        "s1",
+        "s2"
+      ]
+    },
+    {
+      "id": "v4",
+      "code": "VND-0004",
+      "name": "Diamond Paint House",
+      "category": "Paint",
+      "contact": "Faisal Khan",
+      "phone": "0301 2345678",
+      "active": true,
+      "sites": [
+        "s3"
+      ]
+    },
+    {
+      "id": "v5",
+      "code": "VND-0005",
+      "name": "Royal Interior & Decor",
+      "category": "Decor",
+      "contact": "Imran Sheikh",
+      "phone": "0322 3456789",
+      "active": true,
+      "sites": [
+        "s1",
+        "s3"
+      ]
+    },
+    {
+      "id": "v6",
+      "code": "VND-0006",
+      "name": "Bestway Cement Supply",
+      "category": "Cement",
+      "contact": "Asif Mahmood",
+      "phone": "0300 5678901",
+      "active": true,
+      "sites": [
+        "s2",
+        "s4"
+      ]
+    },
+    {
+      "id": "v7",
+      "code": "VND-0007",
+      "name": "Pakistan Fasteners",
+      "category": "Fasteners",
+      "contact": "Waqas Ahmed",
+      "phone": "0312 6789012",
+      "active": true,
+      "sites": [
+        "s2"
+      ]
+    },
+    {
+      "id": "v8",
+      "code": "VND-0008",
+      "name": "Hassan Building Supplies",
+      "category": "Other",
+      "contact": "Hassan Raza",
+      "phone": "0345 7890123",
+      "active": false,
+      "sites": [
+        "s4"
+      ]
+    }
+  ],
+  "sites": [
+    {
+      "id": "s1",
+      "name": "The Palm Residence",
+      "plot": "142",
+      "location": "DHA Phase 6 · Block A, Lahore",
+      "status": "Active",
+      "value": 420000000,
+      "start": "2025-11-12",
+      "featured": true,
+      "style": 0
+    },
+    {
+      "id": "s2",
+      "name": "Park View Villa",
+      "plot": "87",
+      "location": "DHA Phase 8 · Block T, Lahore",
+      "status": "Active",
+      "value": 350000000,
+      "start": "2026-02-05",
+      "featured": false,
+      "style": 1
+    },
+    {
+      "id": "s3",
+      "name": "The Courtyard House",
+      "plot": "216",
+      "location": "Bahria Town · Sector C, Lahore",
+      "status": "Completed",
+      "value": 480000000,
+      "start": "2024-09-18",
+      "featured": true,
+      "style": 2
+    },
+    {
+      "id": "s4",
+      "name": "Lake City Retreat",
+      "plot": "64",
+      "location": "Lake City · Sector M7, Lahore",
+      "status": "On Hold",
+      "value": 320000000,
+      "start": "2026-01-08",
+      "featured": false,
+      "style": 3
+    }
+  ],
+  "receipts": [
+    {
+      "id": "r1",
+      "code": "REC-2026-0048",
+      "vendor": "v1",
+      "site": "s1",
+      "date": "2026-09-18",
+      "description": "Grade 60 steel reinforcement",
+      "quantity": 4000,
+      "unit": "Kg",
+      "rate": 265,
+      "paid": 0
+    },
+    {
+      "id": "r2",
+      "code": "REC-2026-0047",
+      "vendor": "v2",
+      "site": "s1",
+      "date": "2026-09-17",
+      "description": "Porcelain floor tiles · 24 × 48",
+      "quantity": 320,
+      "unit": "Box",
+      "rate": 4500,
+      "paid": 600000
+    },
+    {
+      "id": "r3",
+      "code": "REC-2026-0046",
+      "vendor": "v3",
+      "site": "s2",
+      "date": "2026-09-16",
+      "description": "Brass door hardware sets",
+      "quantity": 48,
+      "unit": "Set",
+      "rate": 6500,
+      "paid": 312000
+    },
+    {
+      "id": "r4",
+      "code": "REC-2026-0045",
+      "vendor": "v4",
+      "site": "s3",
+      "date": "2026-09-15",
+      "description": "Premium interior emulsion",
+      "quantity": 60,
+      "unit": "Drum",
+      "rate": 12000,
+      "paid": 420000
+    },
+    {
+      "id": "r5",
+      "code": "REC-2026-0044",
+      "vendor": "v5",
+      "site": "s1",
+      "date": "2026-09-14",
+      "description": "Decorative wrought iron panels",
+      "quantity": 12,
+      "unit": "Piece",
+      "rate": 95000,
+      "paid": 0
+    },
+    {
+      "id": "r6",
+      "code": "REC-2026-0043",
+      "vendor": "v6",
+      "site": "s2",
+      "date": "2026-09-13",
+      "description": "Portland cement · 50 kg",
+      "quantity": 500,
+      "unit": "Bag",
+      "rate": 1450,
+      "paid": 300000
+    },
+    {
+      "id": "r7",
+      "code": "REC-2026-0042",
+      "vendor": "v7",
+      "site": "s2",
+      "date": "2026-09-12",
+      "description": "Anchor bolts and nuts",
+      "quantity": 120,
+      "unit": "Dozen",
+      "rate": 850,
+      "paid": 102000
+    },
+    {
+      "id": "r8",
+      "code": "REC-2026-0041",
+      "vendor": "v1",
+      "site": "s2",
+      "date": "2026-09-10",
+      "description": "Steel reinforcement · 12 mm",
+      "quantity": 6000,
+      "unit": "Kg",
+      "rate": 260,
+      "paid": 900000
+    },
+    {
+      "id": "r9",
+      "code": "REC-2025-0138",
+      "vendor": "v8",
+      "site": "s4",
+      "date": "2025-12-08",
+      "description": "Concrete blocks",
+      "quantity": 4000,
+      "unit": "Piece",
+      "rate": 95,
+      "paid": 380000
+    },
+    {
+      "id": "r10",
+      "code": "REC-2025-0124",
+      "vendor": "v2",
+      "site": "s3",
+      "date": "2025-11-22",
+      "description": "Italian marble tiles",
+      "quantity": 450,
+      "unit": "Box",
+      "rate": 7200,
+      "paid": 2800000
+    }
+  ]
+}

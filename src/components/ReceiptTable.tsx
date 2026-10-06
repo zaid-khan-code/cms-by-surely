@@ -1,0 +1,6 @@
+import { Link } from 'react-router-dom';
+import { type Receipt, total, paymentStatus } from '../data/store';
+import { useLedger } from '../context';
+import { money,formatDate } from '../lib';
+import { Badge, Empty } from './ui';
+export default function ReceiptTable({rows}:{rows:Receipt[]}){const {state}=useLedger();return rows.length?<div className="table-scroll"><table className="responsive-table"><thead><tr><th>Receipt / date</th><th>Vendor / site</th><th>Billed</th><th>Outstanding</th><th>Status</th></tr></thead><tbody>{[...rows].sort((a,b)=>b.date.localeCompare(a.date)||b.code.localeCompare(a.code)).map(r=><tr key={r.id}><td data-label="Receipt"><Link className="table-link" to={`/receipts/${r.id}`}>{r.code}</Link><small>{formatDate(r.date)}</small></td><td data-label="Vendor / site"><Link to={`/vendors/${r.vendor}`}>{state.vendors.find(v=>v.id===r.vendor)?.name}</Link><small><Link to={`/sites/${r.site}`}>{state.sites.find(s=>s.id===r.site)?.name}</Link></small></td><td data-label="Billed" className="money">{money(total(r))}</td><td data-label="Outstanding" className="money outstanding">{money(total(r)-r.paid)}</td><td data-label="Status"><Badge>{paymentStatus(r)}</Badge></td></tr>)}</tbody></table></div>:<Empty title="No receipts found">Try changing the filters or record a new material receipt.</Empty>;}
